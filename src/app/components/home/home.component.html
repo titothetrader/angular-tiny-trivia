@@ -1,0 +1,74 @@
+<div class="home-container">
+  <div class="title-container">
+    <h1 class="title">{{ title }}</h1>
+  </div>
+
+  <div *ngIf="!userName">
+    <div>
+      <form
+        class="form-container"
+        [formGroup]="triviaForm"
+        (ngSubmit)="startTrivia()"
+      >
+        <label>
+          <input
+            type="text"
+            placeholder="Your user name"
+            formControlName="userName"
+          />
+        </label>
+        <div
+          class="form-error"
+          *ngIf="
+            !triviaForm.get('userName')?.valid &&
+            triviaForm.get('userName')?.touched
+          "
+        >
+          Please add user name
+        </div>
+
+        <select name="category" formControlName="category">
+          <option selected hidden>Select Category</option>
+          <option *ngFor="let category of categories">
+            {{ category }}
+          </option>
+        </select>
+        <div
+          class="form-error"
+          *ngIf="
+            !triviaForm.get('category')?.valid &&
+            triviaForm.get('category')?.touched
+          "
+        >
+          Select valid category
+        </div>
+
+        <select name="difficulty" formControlName="difficulty">
+          <option selected hidden>Select Difficulty</option>
+          <option *ngFor="let difficulty of difficulties">
+            {{ difficulty }}
+          </option>
+        </select>
+        <div
+          class="form-error"
+          *ngIf="
+            !triviaForm.get('difficulty')?.valid &&
+            triviaForm.get('difficulty')?.touched
+          "
+        >
+          Select valid difficulty
+        </div>
+
+        <button
+          type="submit"
+          mat-raised-button
+          class="main-button"
+          [disabled]="!triviaForm.valid"
+        >
+          Let's Play!
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<questions [questions]="questions" [userName]="userName" [difficulty]="triviaForm.value.difficulty"></questions>

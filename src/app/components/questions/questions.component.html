@@ -1,0 +1,45 @@
+<div *ngIf="userName && !showHighScores" class="questions-container">
+  <div class="user-score">
+    <h1 class="player-name">{{ userName }}</h1>
+    <h3>Score: {{ playerScore > 0 ? playerScore : 0 }}</h3>
+  </div>
+  <div *ngFor="let question of questions; index as i">
+    <!-- <div *ngIf="!answeredQuestions.has(i)"> -->
+    <div *ngIf="currentQuestion === i">
+      <div>
+        <h2 class="underline underline-offset-8">{{ question.category }}</h2>
+        <h1>{{ question.question }}</h1>
+      </div>
+      <div>
+        <button
+          mat-raised-button
+          class="question-button"
+          (click)="getSelectedResult(question.correctAnswer, i)"
+        >
+          {{ question.correctAnswer }}
+        </button>
+        <button
+          mat-raised-button
+          class="question-button"
+          *ngFor="let answer of question.incorrectAnswers"
+          (click)="getSelectedResult(answer, i)"
+        >
+          {{ answer }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="currentQuestion === questions.length">
+    <h1 class="congrats">Tiny Trivia Totalled!!</h1>
+    <button mat-raised-button class="main-button" (click)="submitScore()">
+      Submit Score
+    </button>
+  </div>
+</div>
+<high-scores
+  *ngIf="showHighScores"
+  [userName]="userName"
+  [playerScore]="playerScore"
+  [database]="database"
+  [newHighScore]="newHighScore"
+></high-scores>

@@ -1,0 +1,46 @@
+<div class="highScores-container">
+  <div [ngClass]="{ 'new-highScore': newHighScore, 'finalScore': !newHighScore }">
+    <h1 *ngIf="newHighScore" class="new-champion">NEW CHAMPION!!</h1>
+    <h1 class="player-name">{{ userName }}</h1>
+    <h2>Final Score: {{ playerScore }}</h2>
+  </div>
+
+  <div class="highScores">
+    <h1 class="highScores-title">TOP SCORES</h1>
+    <table class="scores-list">
+      <thead>
+        <tr>
+          <th>RANK</th>
+          <th>PLAYER</th>
+          <th>SCORE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let score of database; index as i"
+          [ngClass]="{ 'user-in-list': score.playerName === userName }"
+        >
+          <td>{{ i + 1 }}</td>
+          <td>{{ score.playerName }}</td>
+          <td>{{ score.highscore }}</td>
+          <td>
+            <button
+              mat-raised-button
+              class="delete-button"
+              (click)="removeScore(score)"
+            >
+              Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <button
+    mat-raised-button
+    class="restart-button"
+    onClick="window.location.reload();"
+  >
+    RESTART
+  </button>
+</div>
